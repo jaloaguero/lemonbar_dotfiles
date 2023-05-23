@@ -96,12 +96,16 @@ workspaces() {
 #hacky and bad way to do it just a placeholder until i get something better
 brightness() {
 
-	echo "%{A:xrandr --output DVI-D-0 --brightness .25:}LOW %{A} %{A:xrandr --output DVI-D-0 --brightness .5:}MID %{A} %{A:xrandr --output DVI-D-0 --brightness 1:} FULL%{A}" 
+	echo "%{A:xrandr --output eDP-1 --brightness .25:}LOW %{A} %{A:xrandr --output  --brightness .5:}MID %{A} %{A:xrandr --output DVI-D-0 --brightness 1:} FULL%{A}" 
 }
 
+battery_percentage() {
+	BP=$(cat /sys/class/power_supply/BAT0/capacity)
+	echo "Battery: ${BP}"
+}
 #main loop, just echo all previous functs
 while true
 do 
-	echo -e "   $(workspaces)   |   $(ActivateWindow)%{r}$(sound)   |   $(show_date)   |   $(clock)   "
+	echo -e "   $(workspaces)   |   $(ActivateWindow)%{r}$(sound)   |   $(battery_percentage)   |   $(show_date)   |   $(clock)   "
 	sleep 0.05s
 done
