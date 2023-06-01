@@ -1,5 +1,5 @@
 # Lemonbar Config
-### a light, easy to use, and understand lemonbar script
+ a light, easy to use, and understand lemonbar script
 
 ## Dependencies:
   -Pulse Audio
