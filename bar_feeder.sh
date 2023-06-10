@@ -1,4 +1,6 @@
 #!/bin/bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source $SCRIPT_DIR/lemonbar_config.sh
 
 ACTIVE_COLOR=DFB5FF
 #shows the time nothing fancy
@@ -48,8 +50,8 @@ sound() {
 }
 
 #defines active and standard colors for the workspaces
-ACTIVE_COLOR=cfbe60
-STANDARD_COLOR=FFFFFF
+ACTIVE_COLOR=$workspace_active_color
+STANDARD_COLOR=$workspace_standard_color
 
 workspaces() {
 	#gets what the current desktop is and saves it in ACTUAL
@@ -101,7 +103,7 @@ brightness() {
 
 battery_percentage() {
 	BP=$(cat /sys/class/power_supply/BAT0/capacity)
-	echo "Battery: ${BP}"
+	echo "Battery: ${BP}%"
 }
 #main loop, just echo all previous functs
 while true
