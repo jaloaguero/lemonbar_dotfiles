@@ -12,8 +12,8 @@ lemonbar_path="$SCRIPT_DIR/bar_feeder.sh"
 foreground_color="#DFB5FF"
 background_color="#5B368F"
 
+#The char that seperates all things from each other. I suggest spaces.
 seperating_char="   ~   "
-seperating_char_color="#DFB5FF"
 
 #Workspaces colors
 workspace_active_color="#CFBE60"
@@ -21,7 +21,11 @@ workspace_active_color="#CFBE60"
 #Battery config:
 
 battery_text="BATTERY: "
-battery_percent_color="#FFFFFF"
+
+battery_percent_color_high="#358C5C"
+battery_percent_color_med="#8C7935"
+battery_percent_color_low="#8C3535"
+
 battery_charge_color="#358C5C"
 
 #how big the bar is. This is optimized for 1080p

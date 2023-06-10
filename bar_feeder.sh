@@ -4,6 +4,8 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source $SCRIPT_DIR/lemonbar_config.sh
 
+FOREGROUND_COLOR=$foreground_color
+
 #shows the time nothing fancy
 clock() {
 	TIME=$(date "+%I:%M:%S %p")
@@ -87,7 +89,7 @@ workspaces() {
 			
 		9)
 			echo -n "1 2 3 4 5 6 7 8 9 %{F$ACTIVE_COLOR}%{+u}0%{-u}%{F$STANDARD_COLOR}";;
-		#this is the catch all just in case there are more workspaces I dont know about
+		#this is the catch all just in case there are more workspaces I dont know about.
 		*)
 			echo -n "1 2 3 4 5 6 7 8 9 0%{F$ACTIVE_COLOR}%{+u}+%{-u}%{F$STANDARD_COLOR}";;
 			
@@ -100,29 +102,40 @@ brightness() {
 	echo "%{A:xrandr --output eDP-1 --brightness .25:}LOW %{A} %{A:xrandr --output  --brightness .5:}MID %{A} %{A:xrandr --output DVI-D-0 --brightness 1:} FULL%{A}" 
 }
 
+BATTERY_TEXT=$battery_text
+
+BATTERY_PERCENT_COLOR_HIGH=$battery_percent_color_high
+BATTERY_PERCENT_COLOR_MED=$battery_percent_color_med
+BATTERY_PERCENT_COLOR_LOW=$battery_percent_color_low
+
+
+BATTERY_CHARGE_COLOR=$battery_charge_color
+
+
 battery_percentage() {
 	#Gets both the battery percentage, and Charge. I assume this is the same for all Linux things, but if not, this will be a problem. 
 	BP=$(cat /sys/class/power_supply/BAT0/capacity)
 	CHG=$(cat /sys/class/power_supply/BAT0/status)
-	
-	BATTERY_TEXT=$battery_text
-	BATTERY_PERCENT_COLOR=$battery_percent_color
-	BATTERY_CHARGE_COLOR=$battery_charge_color
-			#echo -n "1 2 3 4 5 6 7 8 9 %{F#$ACTIVE_COLOR}%{+u}0%{-u}%{F#$STANDARD_COLOR}";;
 
 	if [ "$CHG" = "Charging" ]; then
-		echo "${BATTERY_TEXT}%{F$BATTERY_CHARGE_COLOR}CHRG(${BP}%)%{F$foreground_color}"
+		echo "${BATTERY_TEXT}%{F$BATTERY_CHARGE_COLOR}CHRG(${BP}%)%{F$FOREGROUND_COLOR}"
 	else
-		echo "${BATTERY_TEXT}${BP}%"
+		if [ "$BP" -ge 70 ]; then
+			echo "${BATTERY_TEXT}%{F$BATTERY_PERCENT_COLOR_HIGH}${BP}% %{F$FOREGROUND_COLOR}"
+		elif [ "$BP" -ge 30 ]; then
+			echo "${BATTERY_TEXT}%{F$BATTERY_PERCENT_COLOR_MED}${BP}% %{F$FOREGROUND_COLOR}"
+		else
+			echo "${BATTERY_TEXT}%{F$BATTERY_PERCENT_COLOR_LOW}${BP}% %{F$FOREGROUND_COLOR}"
+			
+		fi
 	fi
 
 }
 #main loop, just echo all previous functs
-SEPERATING_CHAR_COLOR=$seperating_char_color
-SEPERATING_CHAR={F$SEPERATING_CHAR_COLOR}$seperating_char{F$FOREGROUND_COLOR}
+SEPERATING_CHAR=$seperating_char
 
 while true
 do 
-	echo -e "   $(workspaces)$seperating_char$(ActivateWindow)%{r}$(sound)$seperating_char$(battery_percentage)$seperating_char$(show_date)$seperating_char$(clock)   "
+	echo -e "   $(workspaces)$SEPERATING_CHAR$(ActivateWindow)%{r}$(sound)$SEPERATING_CHAR$(battery_percentage)$SEPERATING_CHAR$(show_date)$SEPERATING_CHAR$(clock)   "
 	sleep 0.05s
 done
