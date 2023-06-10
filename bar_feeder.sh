@@ -1,8 +1,9 @@
 #!/bin/bash
+
+#Gets absolute path of config file, and sources it.
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source $SCRIPT_DIR/lemonbar_config.sh
 
-ACTIVE_COLOR=DFB5FF
 #shows the time nothing fancy
 clock() {
 	TIME=$(date "+%I:%M:%S %p")
@@ -49,9 +50,9 @@ sound() {
 
 }
 
-#defines active and standard colors for the workspaces
+#defines active and standard colors for the workspaces, defined in config file.
 ACTIVE_COLOR=$workspace_active_color
-STANDARD_COLOR=$workspace_standard_color
+STANDARD_COLOR=$foreground_color
 
 workspaces() {
 	#gets what the current desktop is and saves it in ACTUAL
@@ -59,38 +60,36 @@ workspaces() {
 	case $ACTUAL in
 		0)
 			#underlines, and changes color of current workspace
-			echo -n "%{+u}%{F#$ACTIVE_COLOR}1%{F#$STANDARD_COLOR}%{-u} 2 3 4 5 6 7 8 9 0";;
+			echo -n "%{+u}%{F$ACTIVE_COLOR}1%{F$STANDARD_COLOR}%{-u} 2 3 4 5 6 7 8 9 0";;
 
 		1)
-			echo -n "1 %{+u}%{F#$ACTIVE_COLOR}2%{F#$STANDARD_COLOR}%{-u} 3 4 5 6 7 8 9 0";;
+			echo -n "1 %{+u}%{F$ACTIVE_COLOR}2%{F$STANDARD_COLOR}%{-u} 3 4 5 6 7 8 9 0";;
 
 		2)
-			echo -n "1 2 %{+u}%{F#$ACTIVE_COLOR}3%{F#$STANDARD_COLOR}%{-u} 4 5 6 7 8 9 0";;
+			echo -n "1 2 %{+u}%{F$ACTIVE_COLOR}3%{F$STANDARD_COLOR}%{-u} 4 5 6 7 8 9 0";;
 
 		3)
-			echo -n "1 2 3 %{F#$ACTIVE_COLOR}%{+u}4%{-u}%{F#$STANDARD_COLOR} 5 6 7 8 9 0";;
+			echo -n "1 2 3 %{F$ACTIVE_COLOR}%{+u}4%{-u}%{F$STANDARD_COLOR} 5 6 7 8 9 0";;
 
 		4)
-			echo -n "1 2 3 4 %{F#$ACTIVE_COLOR}%{+u}5%{-u}%{F#$STANDARD_COLOR} 6 7 8 9 0";;
+			echo -n "1 2 3 4 %{F$ACTIVE_COLOR}%{+u}5%{-u}%{F$STANDARD_COLOR} 6 7 8 9 0";;
 
 		5)
-			echo -n "1 2 3 4 5 %{F#$ACTIVE_COLOR}%{+u}6%{-u}%{F#$STANDARD_COLOR} 7 8 9 0";;
+			echo -n "1 2 3 4 5 %{F$ACTIVE_COLOR}%{+u}6%{-u}%{F$STANDARD_COLOR} 7 8 9 0";;
 
 		6)
-			echo -n "1 2 3 4 5 6 %{F#$ACTIVE_COLOR}%{+u}7%{-u}%{F#$STANDARD_COLOR} 8 9 0";;
+			echo -n "1 2 3 4 5 6 %{F$ACTIVE_COLOR}%{+u}7%{-u}%{F$STANDARD_COLOR} 8 9 0";;
 
 		7)
-			echo -n "1 2 3 4 5 6 7 %{F#$ACTIVE_COLOR}%{+u}8%{-u}%{F#$STANDARD_COLOR} 9 0";;
-
-		
+			echo -n "1 2 3 4 5 6 7 %{F$ACTIVE_COLOR}%{+u}8%{-u}%{F$STANDARD_COLOR} 9 0";;	
 		8)
-			echo -n "1 2 3 4 5 6 7 8 %{F#$ACTIVE_COLOR}%{+u}9%{-u}%{F#$STANDARD_COLOR} 0";;
+			echo -n "1 2 3 4 5 6 7 8 %{F$ACTIVE_COLOR}%{+u}9%{-u}%{F$STANDARD_COLOR} 0";;
 			
 		9)
-			echo -n "1 2 3 4 5 6 7 8 9 %{F#$ACTIVE_COLOR}%{+u}0%{-u}%{F#$STANDARD_COLOR}";;
+			echo -n "1 2 3 4 5 6 7 8 9 %{F$ACTIVE_COLOR}%{+u}0%{-u}%{F$STANDARD_COLOR}";;
 		#this is the catch all just in case there are more workspaces I dont know about
 		*)
-			echo -n "1 2 3 4 5 6 7 8 9 0%{F#$ACTIVE_COLOR}%{+u}+%{-u}%{F#$STANDARD_COLOR}";;
+			echo -n "1 2 3 4 5 6 7 8 9 0%{F$ACTIVE_COLOR}%{+u}+%{-u}%{F$STANDARD_COLOR}";;
 			
 	esac
 }
@@ -102,12 +101,28 @@ brightness() {
 }
 
 battery_percentage() {
+	#Gets both the battery percentage, and Charge. I assume this is the same for all Linux things, but if not, this will be a problem. 
 	BP=$(cat /sys/class/power_supply/BAT0/capacity)
-	echo "Battery: ${BP}%"
+	CHG=$(cat /sys/class/power_supply/BAT0/status)
+	
+	BATTERY_TEXT=$battery_text
+	BATTERY_PERCENT_COLOR=$battery_percent_color
+	BATTERY_CHARGE_COLOR=$battery_charge_color
+			#echo -n "1 2 3 4 5 6 7 8 9 %{F#$ACTIVE_COLOR}%{+u}0%{-u}%{F#$STANDARD_COLOR}";;
+
+	if [ "$CHG" = "Charging" ]; then
+		echo "${BATTERY_TEXT}%{F$BATTERY_CHARGE_COLOR}CHRG(${BP}%)%{F$foreground_color}"
+	else
+		echo "${BATTERY_TEXT}${BP}%"
+	fi
+
 }
 #main loop, just echo all previous functs
+SEPERATING_CHAR_COLOR=$seperating_char_color
+SEPERATING_CHAR={F$SEPERATING_CHAR_COLOR}$seperating_char{F$FOREGROUND_COLOR}
+
 while true
 do 
-	echo -e "   $(workspaces)   |   $(ActivateWindow)%{r}$(sound)   |   $(battery_percentage)   |   $(show_date)   |   $(clock)   "
+	echo -e "   $(workspaces)$seperating_char$(ActivateWindow)%{r}$(sound)$seperating_char$(battery_percentage)$seperating_char$(show_date)$seperating_char$(clock)   "
 	sleep 0.05s
 done

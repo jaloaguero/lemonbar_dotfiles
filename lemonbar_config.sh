@@ -10,13 +10,25 @@ lemonbar_path="$SCRIPT_DIR/bar_feeder.sh"
 #Foreground and background colors:
 #Foreground is the color of the text, background is the color of the bar itsself. 
 foreground_color="#DFB5FF"
-background_color="#140030"
+background_color="#5B368F"
+
+seperating_char="   ~   "
+seperating_char_color="#DFB5FF"
 
 #Workspaces colors
-workspace_active_color="CFBE60"
-workspace_standard_color="FFFFFF"
+workspace_active_color="#CFBE60"
+
+#Battery config:
+
+battery_text="BATTERY: "
+battery_percent_color="#FFFFFF"
+battery_charge_color="#358C5C"
 
 #how big the bar is. This is optimized for 1080p
+
+bar_length="1920"
+bar_height="20"
+
 bar_dimensions="1900x20+10+5"
 
 #To add:

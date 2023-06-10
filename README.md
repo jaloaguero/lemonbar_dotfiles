@@ -1,10 +1,11 @@
-# Lemonbar Config
- a light, easy to use, and understand lemonbar script
+# Jalo's Simple Lemonbar
+ a light, easy to use, understand, and edit lemonbar script.
 
 ## Dependencies:
   -Pulse Audio
-  
-  
+  -Xrandr
+  -
+
  ## How to install:
  install lemonbar (in whatever linux distro), and make a lemonbar folder in you .config folder.
  
