@@ -30,25 +30,12 @@ ActivateWindow(){
 	fi
 }
 
+VOLUME_TEXT=$volume_text
+
 sound() {
 
-	NOTMUTED=$( amixer sget Master | grep "\[on\]" )
-	if [[ ! -z $NOTMUTED ]] ; then
-		#gets the current volume 
-		VOL=$(awk -F"[][]" '/%/ { print $2 }' <(amixer -D pulse sget Master) | sed 's/%//g' | head -n 1)
-		#checks what the volume is
-		if [ $VOL -ge 75 ] ; then
-			#calls lemonbar_notifications to take care of sound change if pressed on 
-			#wrapped both number and emoji so you can fat finger it as opposed to having to be accurate
-			echo "%{A:sh .config/lemonbar/lemonbar_notifications.sh:}\uf028 ${VOL}%{A}"
-		elif [ $VOL -ge 50 ] ; then
-			echo "%{A:sh .config/lemonbar/lemonbar_notifications.sh:}\uf027 ${VOL}%{A}"
-		else
-			echo "%{A:sh .config/lemonbar/lemonbar_notifications.sh:}\uf026 ${VOL}%{A}"
-		fi
-	else
-		echo "M"
-	fi
+	VOL=$(awk -F"[][]" '/%/ { print $2 }' <(amixer -D pulse sget Master) | sed 's/%//g' | head -n 1)
+	echo "${VOLUME_TEXT}${VOL}"
 
 }
 
@@ -96,10 +83,16 @@ workspaces() {
 	esac
 }
 
-#hacky and bad way to do it just a placeholder until i get something better
+#THis only means that there is one monitor, if more, this breaks.
+MONITOR_NAME=$(xrandr --listmonitors | awk '{print $4}')
+BRIGHTNESS_TEXT=$brightness_text
+curr_brightness=1
 brightness() {
+	brightness=$(xrandr --verbose | awk '/Brightness/ { print $2 }')
+	#echo "%{A:xrandr --output eDP-1 --brightness .25:}LOW %{A} %{A:xrandr --output  --brightness .5:}MID %{A} %{A:xrandr --output DVI-D-0 --brightness 1:} FULL%{A}" 
+	percentage=$(awk -v brightness="$brightness" 'BEGIN { printf "%.0f\n", brightness * 100 }')
 
-	echo "%{A:xrandr --output eDP-1 --brightness .25:}LOW %{A} %{A:xrandr --output  --brightness .5:}MID %{A} %{A:xrandr --output DVI-D-0 --brightness 1:} FULL%{A}" 
+	echo "${BRIGHTNESS_TEXT}${percentage}%"
 }
 
 BATTERY_TEXT=$battery_text
@@ -133,9 +126,11 @@ battery_percentage() {
 }
 #main loop, just echo all previous functs
 SEPERATING_CHAR=$seperating_char
+EDGE_CHAR=$edge_char
+REFRESH_RATE=$refresh_rate
 
 while true
 do 
-	echo -e "   $(workspaces)$SEPERATING_CHAR$(ActivateWindow)%{r}$(sound)$SEPERATING_CHAR$(battery_percentage)$SEPERATING_CHAR$(show_date)$SEPERATING_CHAR$(clock)   "
-	sleep 0.05s
+	echo -e "$EDGE_CHAR$(workspaces)$SEPERATING_CHAR$(ActivateWindow)%{r}$(brightness)$SEPERATING_CHAR$(sound)$SEPERATING_CHAR$(battery_percentage)$SEPERATING_CHAR$(show_date)$SEPERATING_CHAR$(clock)$EDGE_CHAR"
+	sleep $REFRESH_RATE
 done

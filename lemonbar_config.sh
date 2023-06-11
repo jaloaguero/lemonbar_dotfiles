@@ -14,6 +14,8 @@ background_color="#5B368F"
 
 #The char that seperates all things from each other. I suggest spaces.
 seperating_char="   ~   "
+edge_char="   "
+refresh_rate=0.05s
 
 #Workspaces colors
 workspace_active_color="#CFBE60"
@@ -28,6 +30,9 @@ battery_percent_color_low="#8C3535"
 
 battery_charge_color="#358C5C"
 
+brightness_text="BRIGHTNESS: "
+
+volume_text="VOL: "
 #how big the bar is. This is optimized for 1080p
 
 bar_length="1920"
