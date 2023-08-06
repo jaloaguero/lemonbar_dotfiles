@@ -1,21 +1,22 @@
 #!/bin/bash
-
 #Gets absolute path of config file, and sources it.
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source $SCRIPT_DIR/lemonbar_config.sh
 
 FOREGROUND_COLOR=$foreground_color
 
+TIME_TEXT=$time_text
 #shows the time nothing fancy
 clock() {
 	TIME=$(date "+%I:%M:%S %p")
-	echo -n "\uf017 ${TIME}"
+	echo -n "${TIME_TEXT}${TIME}"
 }
 
 #shows date, using show_date b/c im pretty sure calling it date doesn't work
+DATE_TEXT=$date_text
 show_date() {
 	DATE=$(date "+%m/%d/%Y")
-	echo "\uf073 ${DATE}"
+	echo "${DATE_TEXT}${DATE}"
 }
 
 #shows active window name
@@ -30,13 +31,22 @@ ActivateWindow(){
 	fi
 }
 
-VOLUME_TEXT=$volume_text
-
+VOLUME_TEXT_HIGH=$volume_text_high
+VOLUME_TEXT_MED=$volume_text_med
+VOLUME_TEXT_LOW=$volume_text_low
+VOLUME_TEXT_NONE=$volume_text_none
 sound() {
 
 	VOL=$(awk -F"[][]" '/%/ { print $2 }' <(amixer -D pulse sget Master) | sed 's/%//g' | head -n 1)
-	echo "${VOLUME_TEXT}${VOL}"
-
+	if [ "$VOL" -ge 70 ]; then
+		echo "${VOLUME_TEXT_HIGH}${VOL}"
+	elif [ "$VOL" -ge 30 ]; then
+		echo -n "${VOLUME_TEXT_MED}${VOL}"
+	elif [ "$VOL" -ge 1 ]; then
+		echo "${VOLUME_TEXT_LOW}${VOL}"
+	else
+		echo "${VOLUME_TEXT_NONE}${VOL}"
+	fi
 }
 
 #defines active and standard colors for the workspaces, defined in config file.
@@ -85,23 +95,39 @@ workspaces() {
 
 #THis only means that there is one monitor, if more, this breaks.
 MONITOR_NAME=$(xrandr --listmonitors | awk '{print $4}')
-BRIGHTNESS_TEXT=$brightness_text
+
+BRIGHTNESS_TEXT_HIGH=$brightness_text_high
+BRIGHTNESS_TEXT_MED=$brightness_text_med
+BRIGHTNESS_TEXT_LOW=$brightness_text_low
+BRIGHTNESS_TEXT_NONE=$brightness_text_none
+
+
 curr_brightness=1
 brightness() {
 	brightness=$(xrandr --verbose | awk '/Brightness/ { print $2 }')
 	#echo "%{A:xrandr --output eDP-1 --brightness .25:}LOW %{A} %{A:xrandr --output  --brightness .5:}MID %{A} %{A:xrandr --output DVI-D-0 --brightness 1:} FULL%{A}" 
 	percentage=$(awk -v brightness="$brightness" 'BEGIN { printf "%.0f\n", brightness * 100 }')
 
-	echo "${BRIGHTNESS_TEXT}${percentage}%"
+	if [ "$percentage" -ge 75 ]; then
+		echo "${BRIGHTNESS_TEXT_HIGH}${percentage}%"
+	elif [ "$percentage" -ge 50 ]; then
+		echo "${BRIGHTNESS_TEXT_MED}${percentage}%"
+	elif [ "$percentage" -ge 25 ]; then
+		echo "${BRIGHTNESS_TEXT_LOW}${percentage}%"
+	else
+		echo "${BRIGHTNESS_TEXT_NONE}${percentage}%"
+	fi
 }
 
-BATTERY_TEXT=$battery_text
+BATTERY_TEXT_HIGH=$battery_text_high
+BATTERY_TEXT_MED=$battery_text_med
+BATTERY_TEXT_LOW=$battery_text_low
 
 BATTERY_PERCENT_COLOR_HIGH=$battery_percent_color_high
 BATTERY_PERCENT_COLOR_MED=$battery_percent_color_med
 BATTERY_PERCENT_COLOR_LOW=$battery_percent_color_low
 
-
+BATTERY_TEXT_CHARGE=$battery_text_charge
 BATTERY_CHARGE_COLOR=$battery_charge_color
 
 
@@ -111,14 +137,14 @@ battery_percentage() {
 	CHG=$(cat /sys/class/power_supply/BAT0/status)
 
 	if [ "$CHG" = "Charging" ]; then
-		echo "${BATTERY_TEXT}%{F$BATTERY_CHARGE_COLOR}CHRG(${BP}%)%{F$FOREGROUND_COLOR}"
+		echo "${BATTERY_TEXT_CHARGE}%{F$BATTERY_CHARGE_COLOR}CHRG(${BP}%)%{F$FOREGROUND_COLOR}"
 	else
 		if [ "$BP" -ge 70 ]; then
-			echo "${BATTERY_TEXT}%{F$BATTERY_PERCENT_COLOR_HIGH}${BP}% %{F$FOREGROUND_COLOR}"
+			echo "${BATTERY_TEXT_HIGH}%{F$BATTERY_PERCENT_COLOR_HIGH}${BP}% %{F$FOREGROUND_COLOR}"
 		elif [ "$BP" -ge 30 ]; then
-			echo "${BATTERY_TEXT}%{F$BATTERY_PERCENT_COLOR_MED}${BP}% %{F$FOREGROUND_COLOR}"
+			echo "${BATTERY_TEXT_MED}%{F$BATTERY_PERCENT_COLOR_MED}${BP}% %{F$FOREGROUND_COLOR}"
 		else
-			echo "${BATTERY_TEXT}%{F$BATTERY_PERCENT_COLOR_LOW}${BP}% %{F$FOREGROUND_COLOR}"
+			echo "${BATTERY_TEXT_LOW}%{F$BATTERY_PERCENT_COLOR_LOW}${BP}% %{F$FOREGROUND_COLOR}"
 			
 		fi
 	fi

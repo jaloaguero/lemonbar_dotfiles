@@ -11,4 +11,4 @@ killall -q lemonbar
 killall -q bar_feeder
 
 #Actually runs lemonbar. 
-bash $lemonbar_path | lemonbar -g $bar_dimensions -p -F $foreground_color -B $background_color -f $font-$font_size -f FontAwesome-10 | $SHELL
+bash $lemonbar_path | lemonbar -g $bar_dimensions -p -F $foreground_color -B $background_color -f "$font"-$font_size -f "$font2"-font2_size | $SHELL

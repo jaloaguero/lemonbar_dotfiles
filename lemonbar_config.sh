@@ -1,20 +1,23 @@
 #!/bin/bash
 #
 #CONFIG FILE
+#==================GENERAL=====================#
+
+bar_dimensions="1920x20"
 
 #Foreground and background colors:
 #Foreground is the color of the text, background is the color of the bar itsself. 
 foreground_color="#DFB5FF"
-background_color="#5B368F"
+background_color="#142B1F"
 
-font=Terminus
-font_size=10
+font='ShureTechMono Nerd Font'
+font_size=11
 
-font2=FontAwesome
-font2_size=10
+font2='ShureTechMono Nerd Font'
+font2_size=11
 
 #The char that seperates all things from each other. I suggest spaces.
-seperating_char="   ~   "
+seperating_char="  ~  "
 #Chars on the end of the bar itself. leave blank for no things.
 edge_char="   "
 refresh_rate=0.05s
@@ -22,28 +25,46 @@ refresh_rate=0.05s
 #Workspaces colors
 workspace_active_color="#CFBE60"
 
-#Battery config:
+#==================BATTERY=====================#
 
-battery_text="BATTERY: "
+battery_text_high="\uf240 "
+battery_text_med="\uf242 "
+battery_text_low="\uf243 "
 
 battery_percent_color_high="#358C5C"
 battery_percent_color_med="#8C7935"
 battery_percent_color_low="#8C3535"
 
+battery_text_charge="󱐋 "
 battery_charge_color="#358C5C"
 
-brightness_text="BRIGHTNESS: "
+#=================BRIGHTNESS==================#
 
-volume_text="VOL: "
+brightness_text_high="󰃠  "
+brightness_text_med="󰃞 "
+brightness_text_low="󰃜 "
+birghtness_text_none="󰃛 "
+
+#==================DATE=====================#
+date_text="\uf133 "
+
+#==================TIME=====================#
+time_text="\uf017 "
+
+#==================VOLUME=====================#
+
+volume_text_high=" "
+volume_text_med=" "
+volume_text_low=" "
+volume_text_none="\uf466 "
+
 #how big the bar is. This is optimized for 1080p
 
-bar_length="1920"
-bar_height="20"
+#==================WINDOW FOCUS=====================#
 
-bar_dimensions="1900x20+10+5"
+window_focus_text="\uf4b2"
 
-
-#ADVANCED OPTIONS:
+#=============ADVANCED OPTIONS=================#
 #Script location for lemonbar. This should not need to be touched, as it should be automatic.
 #If there are script location movements (such as they are all no longer in the same location), this may break. 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
