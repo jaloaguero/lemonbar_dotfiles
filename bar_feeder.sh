@@ -100,9 +100,12 @@ RAM_COLOR_LOW=$ram_color_low
 RAM_COLOR_MED=$ram_color_med
 RAM_COLOR_HIGH=$ram_color_high
 
+#Gets ram size, not in primary loop b/c this number should not change.
+RAM_AVAIL=$(printf "%.1f" $(free -m | grep Mem | awk '{print ($2*0.001)}'))
+
+
 ram_usage() {
 	RAM_USAGE=$(printf "%.1f" $(free -m | grep Mem | awk '{print ($3*0.001)}'))
-	RAM_AVAIL=$(printf "%.1f" $(free -m | grep Mem | awk '{print ($2*0.001)}'))
 	
 	RAM_PERCENT=$(free -m | grep Mem | awk '{print ($3/$2)*100}' | cut -d. -f1)
 
