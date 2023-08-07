@@ -19,13 +19,14 @@ show_date() {
 	echo "${DATE_TEXT}${DATE}"
 }
 
+MAX_LEN=$max_len
 #shows active window name
 ActivateWindow(){
 	len=$(echo -n "$(xdotool getwindowfocus getwindowname)" | wc -m)
 	#max length of the line, so the length of it before the program says "fuck it" and just puts ...
 	max_len=100
-	if [ "$len" -gt "$max_len" ] ; then
-		echo -n "$(xdotool getwindowfocus getwindowname | cut -c 1-$max_len)..."
+	if [ "$len" -gt "$MAX_LEN" ] ; then
+		echo -n "$(xdotool getwindowfocus getwindowname | cut -c 1-$MAX_LEN)..."
 	else
 		echo -n "$(xdotool getwindowfocus getwindowname)"
 	fi
@@ -93,6 +94,27 @@ workspaces() {
 	esac
 }
 
+RAM_TEXT=$ram_text
+
+RAM_COLOR_LOW=$ram_color_low
+RAM_COLOR_MED=$ram_color_med
+RAM_COLOR_HIGH=$ram_color_high
+
+ram_usage() {
+	RAM_USAGE=$(printf "%.1f" $(free -m | grep Mem | awk '{print ($3*0.001)}'))
+	RAM_AVAIL=$(printf "%.1f" $(free -m | grep Mem | awk '{print ($2*0.001)}'))
+	
+	RAM_PERCENT=$(free -m | grep Mem | awk '{print ($3/$2)*100}' | cut -d. -f1)
+
+	if [ "$RAM_PERCENT" -ge 75 ]; then
+		echo -n "${RAM_TEXT}${RAM_USAGE}GiB/${RAM_AVAIL}GiB%{F$RAM_COLOR_HIGH}(${RAM_PERCENT}%)%{F$FOREGROUND_COLOR}"
+	elif [ "$RAM_PERCENT" -ge 40 ]; then
+		echo -n "${RAM_TEXT}${RAM_USAGE}GiB/${RAM_AVAIL}GiB%{F$RAM_COLOR_MED}(${RAM_PERCENT}%)%{F$FOREGROUND_COLOR}"
+	else
+		echo -n "${RAM_TEXT}${RAM_USAGE}GiB/${RAM_AVAIL}GiB%{F$RAM_COLOR_MED}(${RAM_PERCENT}%)%{F$FOREGROUND_COLOR}"
+	fi
+}
+
 #THis only means that there is one monitor, if more, this breaks.
 MONITOR_NAME=$(xrandr --listmonitors | awk '{print $4}')
 
@@ -100,7 +122,6 @@ BRIGHTNESS_TEXT_HIGH=$brightness_text_high
 BRIGHTNESS_TEXT_MED=$brightness_text_med
 BRIGHTNESS_TEXT_LOW=$brightness_text_low
 BRIGHTNESS_TEXT_NONE=$brightness_text_none
-
 
 curr_brightness=1
 brightness() {
@@ -157,6 +178,6 @@ REFRESH_RATE=$refresh_rate
 
 while true
 do 
-	echo -e "$EDGE_CHAR$(workspaces)$SEPERATING_CHAR$(ActivateWindow)%{r}$(brightness)$SEPERATING_CHAR$(sound)$SEPERATING_CHAR$(battery_percentage)$SEPERATING_CHAR$(show_date)$SEPERATING_CHAR$(clock)$EDGE_CHAR"
+	echo -e "$EDGE_CHAR$(workspaces)$SEPERATING_CHAR$(ActivateWindow)%{r}$(ram_usage)$SEPERATING_CHAR$(brightness)$SEPERATING_CHAR$(sound)$SEPERATING_CHAR$(battery_percentage)$SEPERATING_CHAR$(show_date)$SEPERATING_CHAR$(clock)$EDGE_CHAR"
 	sleep $REFRESH_RATE
 done

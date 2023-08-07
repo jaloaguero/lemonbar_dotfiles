@@ -25,6 +25,13 @@ refresh_rate=0.05s
 #Workspaces colors
 workspace_active_color="#CFBE60"
 
+#===================RAM========================#
+ram_text="\uf4b3 "
+#REMEMBER HIGH = HIGH USAGE, SO FLIP COLORS 
+ram_color_high="#8C3535"
+ram_color_med="#8C7935"
+ram_color_low="#358C5C"
+
 #==================BATTERY=====================#
 
 battery_text_high="\uf240 "
@@ -35,7 +42,7 @@ battery_percent_color_high="#358C5C"
 battery_percent_color_med="#8C7935"
 battery_percent_color_low="#8C3535"
 
-battery_text_charge="󱐋 "
+battery_text_charge="\uf240 "
 battery_charge_color="#358C5C"
 
 #=================BRIGHTNESS==================#
@@ -64,6 +71,8 @@ volume_text_none="\uf466 "
 
 window_focus_text="\uf4b2"
 
+#Max length of the text. After this length, it will end with '...' so reduce or expand as needed.
+max_len=100
 #=============ADVANCED OPTIONS=================#
 #Script location for lemonbar. This should not need to be touched, as it should be automatic.
 #If there are script location movements (such as they are all no longer in the same location), this may break. 
