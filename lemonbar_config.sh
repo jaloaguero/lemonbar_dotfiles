@@ -24,7 +24,7 @@ refresh_rate=0.05s
 
 #Workspaces colors
 workspace_active_color="#CFBE60"
-
+workspace_back_color='#CF60BD1'
 #===================RAM========================#
 ram_text="\uf4b3 "
 #REMEMBER HIGH = HIGH USAGE, SO FLIP COLORS 
