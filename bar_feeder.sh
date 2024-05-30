@@ -58,11 +58,12 @@ BACK_COLOR=$workspace_back_color
 #in them, or neitehr. 
 desktop() {
 	if [ "$current_desktop" == "$1" ] ; then
-		echo -n " %{+u}%{F$ACTIVE_COLOR}${current_desktop}%{F$STANDARD_COLOR}%{-u} "
+
+		echo -n " %{A:wmctrl -s $(($1 - 1)):}%{+u}%{F$ACTIVE_COLOR}${current_desktop}%{F$STANDARD_COLOR}%{-u}%{A} "
 	elif echo "$active_workspace_list" | grep -q "$1"; then
-		echo -n " $1 "
+		echo -n %{A:wmctrl -s $(($1 - 1)):}" $1 "%{A}
 	else
-		echo ""
+		echo %{A:wmctrl -s $(($1 - 1)):}""%{A}
 	fi
 }
 workspaces() {
@@ -124,6 +125,12 @@ brightness() {
 	fi
 }
 
+cpu_temp() {
+	
+	echo $(sensors|awk 'BEGIN{i=0;t=0;b=0}/id [0-9]/{b=$4};/Core/{++i;t+=$3}END{if(i>0){printf("%0.1f\n",t/i)}else{sub(/[^0-9.]/,"",b);print b}}') ${CPU_TEMP}
+
+}
+
 BATTERY_TEXT_HIGH=$battery_text_high
 BATTERY_TEXT_MED=$battery_text_med
 BATTERY_TEXT_LOW=$battery_text_low
@@ -162,6 +169,6 @@ REFRESH_RATE=$refresh_rate
 
 while true
 do 
-	echo -e "$EDGE_CHAR$(workspaces)$SEPERATING_CHAR$(ActivateWindow)%{r}$(ram_usage)$SEPERATING_CHAR$(brightness)$SEPERATING_CHAR$(sound)$SEPERATING_CHAR$(battery_percentage)$SEPERATING_CHAR$(show_date)$SEPERATING_CHAR$(clock)$EDGE_CHAR"
+	echo -e "$EDGE_CHAR$(workspaces)$SEPERATING_CHAR$(ActivateWindow)%{r}$(ram_usage)$SEPERATING_CHAR$(cpu_temp)$SEPERATING_CHAR$(brightness)$SEPERATING_CHAR$(sound)$SEPERATING_CHAR$(battery_percentage)$SEPERATING_CHAR$(show_date)$SEPERATING_CHAR$(clock)$EDGE_CHAR"
 	sleep $REFRESH_RATE
 done

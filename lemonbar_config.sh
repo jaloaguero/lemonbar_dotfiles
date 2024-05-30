@@ -20,7 +20,7 @@ font2_size=11
 seperating_char="  ~  "
 #Chars on the end of the bar itself. leave blank for no things.
 edge_char="   "
-refresh_rate=0.05s
+refresh_rate=0
 
 #Workspaces colors
 workspace_active_color="#CFBE60"
@@ -66,7 +66,8 @@ volume_text_low=" "
 volume_text_none="\uf466 "
 
 #how big the bar is. This is optimized for 1080p
-
+#=====================CPU TEMP======================#
+CPU_TEMP="\uf504"
 #==================WINDOW FOCUS=====================#
 
 window_focus_text="\uf4b2"
