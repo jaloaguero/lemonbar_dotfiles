@@ -1,3 +1,8 @@
+#!/bin/bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source $SCRIPT_DIR/lemonbar_config.sh
+
+
 ACTIVE_COLOR=$workspace_active_color
 STANDARD_COLOR=$foreground_color
 BACK_COLOR=$workspace_back_color
@@ -15,17 +20,23 @@ desktop() {
 		echo %{A:wmctrl -s $(($1 - 1)):}""%{A}
 	fi
 }
-workspaces() {
+workspace() {
 	#gets what the current desktop is and saves it in ACTUAL
 	current_desktop=$(wmctrl -d | grep '\*' | awk '{print $1 + 1}')
 	active_workspace_list=$(wmctrl -l | awk '{print $2 + 1}' | xargs)
+
 	for value in 1 2 3 4 5 6 7 8 9 0; do
 		results+=("$(desktop "$value")")
 	done
 	echo "${results[@]}"
 }
 
-while true
-do
-	echo -e $(workspaces)
-done
+
+call_workspace() {
+
+	while true
+	do
+		echo "workspace$(workspace)"
+		sleep $refresh_rate_short
+	done
+}

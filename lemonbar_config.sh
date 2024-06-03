@@ -20,7 +20,13 @@ font2_size=11
 seperating_char="  ~  "
 #Chars on the end of the bar itself. leave blank for no things.
 edge_char="   "
-refresh_rate=0
+
+#REFRESH RATE:
+#111resh rate for how often script runs. 
+#Long is for things that do not need to be refreshed many times, such as date, time, battery percentage, so refresh less often to save resources. Default is 1. 
+refresh_rate_long=1
+# Short refresh rate is for things you want to have quick reactions, such as change in volume, workspace, etc. Default is 0
+refresh_rate_short=0.01
 
 #Workspaces colors
 workspace_active_color="#CFBE60"
