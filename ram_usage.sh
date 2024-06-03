@@ -31,6 +31,6 @@ call_ram_usage() {
 while true
 do
 	echo "ram_usage$(ram_usage)"
-	sleep $refresh_rate_long
+	sleep $ram_refresh_rate
 done
 }

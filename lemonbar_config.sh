@@ -19,25 +19,20 @@ font2_size=11
 #The char that seperates all things from each other. I suggest spaces.
 seperating_char="  ~  "
 #Chars on the end of the bar itself. leave blank for no things.
-edge_char="   "
+edge_char=" :) "
 
 #REFRESH RATE:
-#111resh rate for how often script runs. 
-#Long is for things that do not need to be refreshed many times, such as date, time, battery percentage, so refresh less often to save resources. Default is 1. 
-refresh_rate_long=1
-# Short refresh rate is for things you want to have quick reactions, such as change in volume, workspace, etc. Default is 0
-refresh_rate_short=0.01
-
-#Workspaces colors
+#====================WORKSPACE================#
 workspace_active_color="#CFBE60"
 workspace_back_color='#CF60BD1'
+workspace_refresh_rate=0.1
 #===================RAM========================#
 ram_text="\uf4b3 "
 #REMEMBER HIGH = HIGH USAGE, SO FLIP COLORS 
 ram_color_high="#8C3535"
 ram_color_med="#8C7935"
 ram_color_low="#358C5C"
-
+ram_refresh_rate=5
 #==================BATTERY=====================#
 
 battery_text_high="\uf240 "
@@ -50,36 +45,39 @@ battery_percent_color_low="#8C3535"
 
 battery_text_charge="\uf240 "
 battery_charge_color="#358C5C"
-
-#=================BRIGHTNESS==================#
+battery_refresh_rate=10
+#=================BRIGHTNESS CONTROL==================#
 
 brightness_text_high="󰃠  "
 brightness_text_med="󰃞 "
 brightness_text_low="󰃜 "
 birghtness_text_none="󰃛 "
-
+brightness_refresh_rate=0.5
 #==================DATE=====================#
 date_text="\uf133 "
-
+date_refresh_rate=3600
 #==================TIME=====================#
 time_text="\uf017 "
-
+time_refresh_rate=1
 #==================VOLUME=====================#
 
 volume_text_high=" "
 volume_text_med=" "
 volume_text_low=" "
 volume_text_none="\uf466 "
-
+volume_refresh_rate=0.3
 #how big the bar is. This is optimized for 1080p
 #=====================CPU TEMP======================#
 CPU_TEMP="\uf504"
-#==================WINDOW FOCUS=====================#
+cpu_temp_refresh_rate=10
+#==================ACTIVE WINDOW TITLE=====================#
 
-window_focus_text="\uf4b2"
+active_window_text="\uf4b2"
 
 #Max length of the text. After this length, it will end with '...' so reduce or expand as needed.
 max_len=100
+
+active_window_refresh_rate=0.4
 #=============ADVANCED OPTIONS=================#
 #Script location for lemonbar. This should not need to be touched, as it should be automatic.
 #If there are script location movements (such as they are all no longer in the same location), this may break. 

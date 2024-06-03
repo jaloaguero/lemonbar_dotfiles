@@ -14,6 +14,6 @@ call_show_date() {
 while true
 do
 	echo "show_date$(show_date)"
-	sleep $refresh_rate_long
+	sleep $date_refresh_rate
 done
 }

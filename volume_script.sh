@@ -25,6 +25,6 @@ call_volume_script() {
 while true
 do
 	echo "volume_script$(sound)"
-	sleep $refresh_rate_short
+	sleep $volume_refresh_rate
 done
 }

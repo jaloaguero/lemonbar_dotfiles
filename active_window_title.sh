@@ -3,6 +3,8 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source $SCRIPT_DIR/lemonbar_config.sh
 
+
+
 MAX_LEN=$max_len
 #shows active window name
 active_window_title(){
@@ -18,7 +20,8 @@ active_window_title(){
 call_active_window_title() {
 while true
 do
-	echo "active_window_title$(active_window_title)"
-	sleep $refresh_rate_short
+	echo "active_window_title $(active_window_title)"
+	sleep $active_window_refresh_rate
+
 done
 }

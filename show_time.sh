@@ -16,7 +16,7 @@ call_show_time() {
 	while true
 	do
 		echo "show_time$(show_time)"
-		sleep $refresh_rate_long
+		sleep $time_refresh_rate
 	done
 }
 

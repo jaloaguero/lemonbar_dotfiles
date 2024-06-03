@@ -23,7 +23,6 @@ MAX_LEN=$max_len
 #main loop, just echo all previous functs
 SEPERATING_CHAR=$seperating_char
 EDGE_CHAR=$edge_char
-REFRESH_RATE_LONG=$refresh_rate_long
 
 
 
@@ -32,18 +31,19 @@ BAR_FIFO=/tmp/bar_fifo
 rm $BAR_FIFO
 mkfifo $BAR_FIFO
 
-call_active_window_title > $BAR_FIFO &
-call_battery_percentage > $BAR_FIFO &
-call_brightness_controls > $BAR_FIFO &
-call_cpu_temp > $BAR_FIFO &
-call_ram_usage > $BAR_FIFO &
-call_show_date  > $BAR_FIFO &
-call_show_time > $BAR_FIFO &
-call_volume_script  > $BAR_FIFO &
-call_workspace > $BAR_FIFO &
+call_active_window_title > "$BAR_FIFO" &
+call_battery_percentage >  "$BAR_FIFO" &
+call_brightness_controls >  "$BAR_FIFO" &
+call_cpu_temp >  "$BAR_FIFO" &
+call_ram_usage >  "$BAR_FIFO" &
+call_show_date  >  "$BAR_FIFO" &
+call_show_time >  "$BAR_FIFO" &
+call_volume_script  >  "$BAR_FIFO" &
+call_workspace >  "$BAR_FIFO" &
 
-while read -r line < $BAR_FIFO
+while true
 do
+    read -r line < $BAR_FIFO
     case $line in
         active_window_title*)
             prefix="active_window_title"
@@ -81,9 +81,8 @@ do
             prefix="workspace"
             workspace=${line:${#prefix}}
             ;;
-
     esac
-	  echo -e "$EDGE_CHAR$workspace$SEPERATING_CHAR$active_window_title%{r}$ram_usage$SEPERATING_CHAR$cpu_temp$SEPERATING_CHAR$brightness_controls$SEPERATING_CHAR$volume_script$SEPERATING_CHAR$battery_percentage$SEPERATING_CHAR$show_date$SEPERATING_CHAR$show_time$EDGE_CHAR"
+	  echo -e "$EDGE_CHAR${workspace}$SEPERATING_CHAR${active_window_title}%{r}${ram_usage}$SEPERATING_CHAR${cpu_temp}$SEPERATING_CHAR${brightness_controls}$SEPERATING_CHAR${volume_script}$SEPERATING_CHAR${battery_percentage}$SEPERATING_CHAR${show_date}$SEPERATING_CHAR${show_time}$EDGE_CHAR"
 done
 
 

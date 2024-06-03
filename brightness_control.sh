@@ -34,6 +34,6 @@ call_brightness_controls() {
 while true
 do
 	echo "brightness_controls$(brightness)"
-	sleep $refresh_rate_short
+	sleep $brightness_refresh_rate
 done
 }

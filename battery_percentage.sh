@@ -39,6 +39,6 @@ call_battery_percentage() {
 while true
 do
 	echo "battery_percentage$(battery_percentage)"
-	sleep $refresh_rate_long
+	sleep $battery_refresh_rate
 done
 }

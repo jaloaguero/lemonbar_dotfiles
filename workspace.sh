@@ -36,7 +36,7 @@ call_workspace() {
 
 	while true
 	do
-		echo "workspace$(workspace)"
-		sleep $refresh_rate_short
+		echo "workspace $(workspace)"
+		sleep $workspace_refresh_rate
 	done
 }

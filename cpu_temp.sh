@@ -14,6 +14,6 @@ call_cpu_temp(){
 while true
 do
 	echo "cpu_temp$(cpu_temp)"
-	sleep $refresh_rate_short
+	sleep $cpu_temp_refresh_rate
 done
 }
