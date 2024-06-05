@@ -82,7 +82,7 @@ do
             workspace=${line:${#prefix}}
             ;;
     esac
-	  echo -e "$EDGE_CHAR${workspace}$SEPERATING_CHAR${active_window_title}%{r}${ram_usage}$SEPERATING_CHAR${cpu_temp}$SEPERATING_CHAR${brightness_controls}$SEPERATING_CHAR${volume_script}$SEPERATING_CHAR${battery_percentage}$SEPERATING_CHAR${show_date}$SEPERATING_CHAR${show_time}$EDGE_CHAR"
+	  echo -e "$edge_char_left${workspace}$SEPERATING_CHAR${active_window_title}%{r}$SEPERATING_CHAR${ram_usage}$SEPERATING_CHAR${cpu_temp}$SEPERATING_CHAR${brightness_controls}$SEPERATING_CHAR${volume_script}$SEPERATING_CHAR${battery_percentage}$SEPERATING_CHAR${show_date}$SEPERATING_CHAR${show_time}$edge_char_right"
 done
 
 

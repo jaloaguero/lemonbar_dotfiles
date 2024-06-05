@@ -8,10 +8,10 @@ bar_dimensions="1920x20"
 #Foreground and background colors:
 #Foreground is the color of the text, background is the color of the bar itsself. 
 foreground_color="#DFB5FF"
-background_color="#142B1F"
+background_color="#000000"
 
-font='ShureTechMono Nerd Font'
-font_size=11
+font='shuretechmono nerd font'
+font_size=10
 
 font2='ShureTechMono Nerd Font'
 font2_size=11
@@ -19,7 +19,8 @@ font2_size=11
 #The char that seperates all things from each other. I suggest spaces.
 seperating_char="  ~  "
 #Chars on the end of the bar itself. leave blank for no things.
-edge_char=" :) "
+edge_char_left=" (/*o*)/ "
+edge_char_right="    "
 
 #REFRESH RATE:
 #====================WORKSPACE================#
@@ -68,8 +69,12 @@ volume_text_none="\uf466 "
 volume_refresh_rate=0.3
 #how big the bar is. This is optimized for 1080p
 #=====================CPU TEMP======================#
-CPU_TEMP="\uf504"
-cpu_temp_refresh_rate=10
+cpu_text="\uf4bc"
+cpu_color_high="#8C3535"
+cpu_color_med="#8C7935"
+cpu_color_low="#358C5C"
+
+cpu_temp_refresh_rate=20
 #==================ACTIVE WINDOW TITLE=====================#
 
 active_window_text="\uf4b2"
@@ -77,7 +82,7 @@ active_window_text="\uf4b2"
 #Max length of the text. After this length, it will end with '...' so reduce or expand as needed.
 max_len=100
 
-active_window_refresh_rate=0.4
+active_window_refresh_rate=0.5
 #=============ADVANCED OPTIONS=================#
 #Script location for lemonbar. This should not need to be touched, as it should be automatic.
 #If there are script location movements (such as they are all no longer in the same location), this may break. 
